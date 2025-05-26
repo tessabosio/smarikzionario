@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smarikzionario - Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: linear-gradient(135deg, #89f7fe, #66a6ff);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: rgb(0, 0, 0);
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 1s ease-in-out;
+            width: 90%;
+            max-width: 400px;
+            margin-bottom: 30px;
+        }
+        select, button, input, textarea {
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: none;
+            outline: none;
+            width: 100%;
+        }
+        select {
+            background: white;
+            color: black;
+        }
+        button {
+            background: #ff9800;
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #e68900;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes linePulse {
+            0% { transform: scaleX(1); opacity: 0.4; }
+            50% { transform: scaleX(1.2); opacity: 1; }
+            100% { transform: scaleX(1); opacity: 0.4; }
+        }
+        .footer {
+            position: relative;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+            font-size: 14px;
+            color: rgb(0, 0, 0);
+            opacity: 0.8;
+            margin-top: 30px;
+        }
+        .footer::after {
+            content: "";
+            display: block;
+            width: 60%;
+            height: 1px;
+            background-color: rgb(0, 0, 0);
+            opacity: 0.4;
+            margin: 5px auto 0;
+            animation: linePulse 2s infinite ease-in-out;
+            transform-origin: center;
+        }
+        .word-of-day {
+            background: rgba(255, 255, 255, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        /* Responsiveness */
+        @media (max-width: 600px) {
+            .container {
+                width: 90%;
+                padding: 20px;
+            }
+            .word-of-day {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Smarikzionario</h1>
+        <label for="letterSelect">Seleziona la pagina gradita</label>
+        <select id="letterSelect">
+            <option value="">-- Seleziona --</option>
+            <option value="index.html">Home</option>
+            <option value="carosello.html">Carosello delle Parole</option>
+            <script>
+                let alphabet = "ABCDEFGHILMNOPQRSTUVZ".split("");
+                let select = document.getElementById("letterSelect");
+                alphabet.forEach(letter => {
+                    let option = document.createElement("option");
+                    option.value = "lettera" + letter + ".html";
+                    option.textContent = letter;
+                    select.appendChild(option);
+                });
+            </script>
+        </select>
+        <button onclick="goToPage()">Vai</button>
+
+        <div class="word-of-day" id="wordOfDay"></div>
+    </div>
+
+    <div class="footer">
+        Tessa Bosio©2025 - Smarikzionario
+    </div>
+
+    <script>
+        function goToPage() {
+            let letter = document.getElementById("letterSelect").value;
+            if (letter) {
+                window.location.href = letter;
+            } else {
+                alert("Seleziona una lettera!");
+            }
+        }
+
+        // JSON con la parola del giorno
+        const dailyWords = [
+            { word: "Accocchiare", definition: "Indovinare, azzeccare (Non ci accocchi niente!)" },
+            { word: "Cussu", definition: "Quello là/lui" },
+            { word: "Ciola", definition: "Pene (Sdrumox arriva e caccia la ciola)" },
+            { word: "Menna", definition: "Seni, tette (Smarik ha delle belle menne)" },
+            { word: "Trimone", definition: "Stupido/coglione/scemo — Sei un trimone del cazzo" },
+            { word: "Vretto", definition: "Sporchino" },
+            { word: "Ndundunì", definition: "Intontito, scemo" }
+        ];
+
+        function showWordOfDay() {
+            const todayIndex = new Date().getDate() % dailyWords.length;
+            const word = dailyWords[todayIndex];
+            document.getElementById("wordOfDay").innerHTML = `<h3>Parola del giorno</h3><strong>${word.word}</strong>: ${word.definition}`;
+        }
+
+        showWordOfDay();
+    </script>
+</body>
+</html>
